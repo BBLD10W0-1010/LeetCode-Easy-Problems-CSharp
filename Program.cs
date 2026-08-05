@@ -258,6 +258,28 @@ namespace ConsoleApp1
         }
     }
 
+    //I think it was the first one which I solved first try
+    //Idea is to traverse string from end - saves a lot of time and we need only to look out for some edge cases such as test #2 on leetcode
+    public class Solution_58
+    {
+        public int LengthOfLastWord(string s)
+        {
+            int length = 0;
+            for (int i = s.Length-1; i>=0; i--)
+            {
+                if (s[i] == ' ' && length != 0) 
+                {
+                    return length;
+                }
+                else if (s[i] != ' ')
+                {
+                    length++;
+                }
+            }
+            return length;
+        }
+    }
+
     class MyFile
     {
         public static string Decode(string textWithWrongEncoding, Encoding? rightEncoding = null, Encoding? wrongEncoding = null)
