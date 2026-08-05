@@ -230,6 +230,33 @@ namespace ConsoleApp1
             return -1;
         }
     }
+    public class Solution_35
+    {
+        public int SearchInsert(int[] nums, int target)
+        {
+            var left = 0;
+            var right = nums.Length - 1;
+            var tmp = -10000; //value doesn`t matter - ii will be overwritten. Value is needed to store last position of search - thus giving us the point where value can be set so list will remain sorted;
+            while (left <= right)
+            {
+                var mid = left + (right - left) / 2;
+                if (nums[mid] == target)
+                {
+                    return mid;
+                }
+                else if (nums[mid] < target)
+                {
+                    left = mid + 1;
+                }
+                else
+                {
+                    right = mid - 1;
+                }
+                tmp = left;
+            }
+            return tmp;
+        }
+    }
 
     class MyFile
     {
