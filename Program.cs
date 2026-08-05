@@ -280,6 +280,49 @@ namespace ConsoleApp1
         }
     }
 
+    //Done on first try
+    //Idea is to look at all possible situations, there are:
+    //1. Last digit is not a nine - just add a 1 to num and return digits
+    //2. Last digit is nine and others are nine or some are nine - you need to start from end (as we read numbers from right to left) and try to find 
+    //a digit that is not a nine =) but if you see nine again - just turn it to 0 and go forward. Make an else clause to this - because if we see some other digit
+    //we just need to add 1 that we collected from 9s before.
+    public class Solution_66
+    {
+        public int[] PlusOne(int[] digits)
+        {
+            int[] ans = new int[digits.Length + 1];
+           
+            if (digits[digits.Length-1] < 9)
+            {
+                digits[digits.Length - 1] += 1;
+                return digits;
+            }
+            if (digits[digits.Length - 1] == 9)
+            {
+                digits[digits.Length - 1] = 0;
+                for(int i = digits.Length - 2; i>= 0; i--)
+                {
+                    if (digits[i] == 9 )
+                    {
+                        digits[i] = 0;
+                    }
+                    else
+                    {
+                        digits[i]++;
+                        break;
+                    }
+                }
+                if (digits[0] == 0)
+                {
+                    ans[0] = 1;
+                    ans.Concat(digits);
+                    return ans;
+                }
+            }
+            return digits;
+        }
+    }
+
     class MyFile
     {
         public static string Decode(string textWithWrongEncoding, Encoding? rightEncoding = null, Encoding? wrongEncoding = null)
