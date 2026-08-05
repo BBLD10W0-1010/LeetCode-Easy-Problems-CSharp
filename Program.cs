@@ -1,46 +1,14 @@
-﻿using System.Text;
-using static ConsoleApp1.Solution_21;
+﻿using System.Numerics;
+using System.Text;
 namespace ConsoleApp1
 {
     internal class Program
     {
         public static void Main()
         {
-            var list1 = CreateList(new[] { 1, 2, 4 });
-            var list2 = CreateList(new[] { 1, 3, 4 });
-
-            var solution = new Solution_21();
-            var result = solution.MergeTwoLists(list1, list2);
-
-            PrintList(result);
+          
         }
 
-        private static ListNode CreateList(int[] values)
-        {
-            var dummy = new ListNode();
-            var current = dummy;
-
-            foreach (var value in values)
-            {
-                current.next = new ListNode(value);
-                current = current.next;
-            }
-
-            return dummy.next;
-        }
-
-        private static void PrintList(ListNode head)
-        {
-            while (head != null)
-            {
-                Console.Write(head.val);
-
-                if (head.next != null)
-                    Console.Write(" -> ");
-
-                head = head.next;
-            }
-        }
     }
 
 
@@ -323,50 +291,39 @@ namespace ConsoleApp1
         }
     }
 
-    class MyFile
+    public class Solution_69
     {
-        public static string Decode(string textWithWrongEncoding, Encoding? rightEncoding = null, Encoding? wrongEncoding = null)
+        public int MySqrt(int x)
         {
-            if (rightEncoding is null)
+            int left = 2;
+            int right = x/2;
+            int ans = 1;
+            if (x==0 || x == 1)
             {
-                rightEncoding = Encoding.UTF8;
+                return x;
             }
-            if (wrongEncoding is null)
+
+            while (left <= right)
             {
-                wrongEncoding = Encoding.GetEncoding(437);
+                int mid = left + (right - left) / 2;
+                long sqr = (long)mid * mid;
+                if (sqr == x)
+                {
+                    return mid;
+                }
+                else if (sqr > x)
+                {
+                    right = mid - 1;
+                }
+                else
+                {
+                    ans = mid;
+                    left = mid + 1;
+                }
+
             }
-            return rightEncoding.GetString(wrongEncoding.GetBytes(textWithWrongEncoding));
+            return ans;
+
         }
     }
-    class StatsCalculator
-    {
-        public static string Process(string input)
-        {
-        // Ваш код
-                var inputList = input.Split(" ");
-                List<int> intinp = new List<int>();
-                foreach (var inpp in inputList)
-                {
-                    intinp.Add(Convert.ToInt32(inpp));
-                }
-                int cntPlus = 0;
-                int cntMinus = 0;
-                int cntZero = 0;
-                foreach ( int inp in intinp){
-                    if (inp == 0)
-                    {
-                        cntZero++;
-                    }
-                    else if (inp > 0)
-                    {
-                        cntPlus++;
-                    }
-                    else
-                    {
-                        cntMinus++;
-                    }
-                }
-            return $"выше нуля: {cntPlus}, ниже нуля: {cntMinus}, равна нулю: {cntZero}";
-            }
-        }
 }
