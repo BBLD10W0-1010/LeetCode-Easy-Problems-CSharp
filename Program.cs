@@ -1,0 +1,280 @@
+﻿using System.Text;
+using static ConsoleApp1.Solution_21;
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        public static void Main()
+        {
+            var list1 = CreateList(new[] { 1, 2, 4 });
+            var list2 = CreateList(new[] { 1, 3, 4 });
+
+            var solution = new Solution_21();
+            var result = solution.MergeTwoLists(list1, list2);
+
+            PrintList(result);
+        }
+
+        private static ListNode CreateList(int[] values)
+        {
+            var dummy = new ListNode();
+            var current = dummy;
+
+            foreach (var value in values)
+            {
+                current.next = new ListNode(value);
+                current = current.next;
+            }
+
+            return dummy.next;
+        }
+
+        private static void PrintList(ListNode head)
+        {
+            while (head != null)
+            {
+                Console.Write(head.val);
+
+                if (head.next != null)
+                    Console.Write(" -> ");
+
+                head = head.next;
+            }
+        }
+    }
+
+
+    public class Solution
+    {
+        public int RomanToInt(string s)
+        {
+            var dict = new Dictionary<string, int>() { { "I", 1 }, { "V", 5 }, { "X", 10 }, { "L", 50 }, { "C", 100 }, { "D", 500 }, { "M", 1000 } };
+            int ansNum = 0;
+            for(int i = 0; i < s.Length-1; i++)
+            {
+                dict.TryGetValue(s[i].ToString(), out var val1);
+                dict.TryGetValue(s[i + 1].ToString(), out var val2);
+                if (val1 < val2)
+                {
+                    ansNum -= val1;
+                }
+                else
+                {
+                    ansNum += val1;
+                }
+            }
+            dict.TryGetValue(s[s.Length - 1].ToString(), out var last);
+            ansNum += last;
+            return ansNum;
+        }
+    }
+    public class Solution_14
+    {
+        public string LongestCommonPrefix(string[] strs)
+        {
+            string prefix = strs[0];
+            for (int i = 1; i < strs.Length; i++)
+            {
+                prefix = CommonPrefix(prefix, strs[i]);
+            }
+            return prefix;
+        }
+        public string CommonPrefix(string firstWord, string secondWord)
+        {
+            var minlen = Math.Min(firstWord.Length, secondWord.Length);
+            var pref = "";
+            int i = 0;
+
+            while ((i < minlen ) && (firstWord[i] == secondWord[i]))
+            {
+                pref += firstWord[i];
+                i++;
+            }
+            return pref;
+        }
+    }
+
+    public class Solution_20
+    {
+        public bool IsValid(string s)
+        {
+            Stack<char> chars = new();
+            foreach(char c in s)
+            {
+                if (c == '(' || c == '{' || c == '[')
+                {
+                    chars.Push(c);
+                }
+                else
+                {
+                    chars.TryPeek(out var res1);
+                    
+                        if ((res1 == '(' && c == ')') || (res1 == '{' && c == '}') || (res1 == '[' && c == ']'))
+                        {
+                            chars.Pop();
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    
+                }
+            }
+            if (chars.Count == 0) { return true; }
+            else
+            {
+                return false;
+            }
+        }
+    }
+    public class Solution_21
+    {
+        public class ListNode
+        {
+            public int val;
+            public ListNode next;
+            public ListNode(int val = 0, ListNode next = null)
+            {
+                this.val = val;
+                this.next = next;
+            }
+        }
+
+
+        public ListNode MergeTwoLists(ListNode list1, ListNode list2)
+        {
+            ListNode dummy = new ListNode(0, null);
+            ListNode tail = dummy;
+            while (list2 != null && list1 != null)
+            {
+                if (list1.val >= list2.val)
+                {
+                    tail.next = list2;
+                    
+                    list2 = list2.next;
+                }
+                else
+                {
+                    tail.next = list1;
+                    list1 = list1.next;
+                }
+                tail = tail.next;
+            }
+            if (list1 != null)
+            {
+                tail.next = list1;
+            }
+            else if (list2 != null)
+            {
+                tail.next = list2;
+            }
+            return dummy.next;
+        }
+    }
+
+    public class Solution_26
+    {
+        public int RemoveDuplicates(int[] nums)
+        {
+            var pointerOnPosition = 0;
+            var currentNum = -1000;
+            for (int i = 0; i < nums.Length-1; i++)
+            {
+                currentNum = nums[i];
+                if (currentNum != nums[i+1])
+                {
+                    nums[pointerOnPosition] = currentNum;
+                    pointerOnPosition++;
+                }
+            }
+            nums[pointerOnPosition++] = nums[nums.Length-1];
+            return pointerOnPosition;
+        }
+    }
+    public class Solution_27
+    {
+        public int RemoveElement(int[] nums, int val)
+        {
+            var pointerOfPosition = 0;
+            var currentNum = -1000;
+            for (int i = 0; i < nums.Length-1; i++)
+            {
+                currentNum = nums[i];
+                if (currentNum != val)
+                {
+                    nums[pointerOfPosition++] = currentNum;
+                }
+            }
+            if (nums.Length != 0 && nums[nums.Length-1] != val )
+            {
+                nums[pointerOfPosition++] = nums[nums.Length - 1];
+            }
+            return pointerOfPosition;
+        }
+    }
+    public class Solution_28
+    {
+        public int StrStr(string haystack, string needle)
+        {
+            if (haystack == needle)
+            {
+                return 0;
+            }
+            for (int i=0; i < haystack.Length - needle.Length; i++)
+            {
+                if (haystack.Substring(i, needle.Length) == needle)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
+
+    class MyFile
+    {
+        public static string Decode(string textWithWrongEncoding, Encoding? rightEncoding = null, Encoding? wrongEncoding = null)
+        {
+            if (rightEncoding is null)
+            {
+                rightEncoding = Encoding.UTF8;
+            }
+            if (wrongEncoding is null)
+            {
+                wrongEncoding = Encoding.GetEncoding(437);
+            }
+            return rightEncoding.GetString(wrongEncoding.GetBytes(textWithWrongEncoding));
+        }
+    }
+    class StatsCalculator
+    {
+        public static string Process(string input)
+        {
+        // Ваш код
+                var inputList = input.Split(" ");
+                List<int> intinp = new List<int>();
+                foreach (var inpp in inputList)
+                {
+                    intinp.Add(Convert.ToInt32(inpp));
+                }
+                int cntPlus = 0;
+                int cntMinus = 0;
+                int cntZero = 0;
+                foreach ( int inp in intinp){
+                    if (inp == 0)
+                    {
+                        cntZero++;
+                    }
+                    else if (inp > 0)
+                    {
+                        cntPlus++;
+                    }
+                    else
+                    {
+                        cntMinus++;
+                    }
+                }
+            return $"выше нуля: {cntPlus}, ниже нуля: {cntMinus}, равна нулю: {cntZero}";
+            }
+        }
+}
