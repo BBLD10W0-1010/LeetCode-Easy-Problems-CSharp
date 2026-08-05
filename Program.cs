@@ -326,4 +326,23 @@ namespace ConsoleApp1
 
         }
     }
+    //fibonachi through iterations - recursion gives TLE
+    public class Solution_70
+    {
+        public int ClimbStairs(int n)
+        {
+            int first = 1;
+            int second = 2;
+            int ans = 3;
+            if (n == 1) { return first; }
+            if (n == 2) { return second; }
+            for (int steps = 3; steps <= n; steps++)
+            {
+                int next = first + second;
+                first = second;
+                second = next;
+            }
+            return second;
+        }
+    }
 }
