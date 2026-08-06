@@ -1,15 +1,21 @@
 ﻿using System.Numerics;
 using System.Text;
 using static ConsoleApp1.Solution_83;
+using static ConsoleApp1.Solution_94;
 namespace ConsoleApp1
 {
     internal class Program
     {
         public static void Main()
         {
-            ListNode ts1 = new ListNode(1, new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(3, null)))));
-            Solution_83 solution_83 = new Solution_83();
-            solution_83.DeleteDuplicates(ts1);
+           
+            Solution_88 solution_88 = new Solution_88();
+            int[] vr = [2, 0];
+            solution_88.Merge(vr, 1, [1], 1);
+            foreach(var nt in vr)
+            {
+                Console.WriteLine(nt); 
+            }
         }
 
     }
@@ -385,7 +391,88 @@ namespace ConsoleApp1
     {
         public void Merge(int[] nums1, int m, int[] nums2, int n)
         {
+            int pointerOnNums1End = m - 1;
+            int pointerOnNums2End = n - 1;
+            int lastPosNum1 = m + n - 1;
 
+            while (pointerOnNums2End >= 0)
+            {
+                if (pointerOnNums1End >= 0 && nums1[pointerOnNums1End] > nums2[pointerOnNums2End])
+                {
+                    nums1[lastPosNum1] = nums1[pointerOnNums1End];
+                    pointerOnNums1End--;
+                }
+                else
+                {
+                    nums1[lastPosNum1] = nums2[pointerOnNums2End];
+                    pointerOnNums2End--;
+                }
+                lastPosNum1--;
+            }
+           
+        }
+    }
+
+    public class Solution_94
+    {
+        public class TreeNode
+        {
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
+        public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+            {
+                this.val = val;
+                this.left = left;
+                this.right = right;
+                     }
+        }
+        public IList<int> InorderTraversal(TreeNode root)
+        {
+            List<int> lst = new List<int>();
+            Helper(root, lst);
+            return lst;
+
+            
+        }
+        public void Helper(TreeNode root, IList<int> lst)
+        {
+            if (root != null)
+            {
+                Helper(root.left, lst);
+                lst.Add(root.val);
+                Helper(root.right, lst);
+            }
+        }
+    }
+    //somehow this works
+    public class Solution_100
+    {
+        public bool IsSameTree(TreeNode p, TreeNode q)
+        {
+            return Helper(p, q);
+
+        }
+        
+        public bool Helper(TreeNode root, TreeNode secondRoot)
+        {
+            if (root == null && secondRoot == null)
+            {
+                return true;
+            }
+            if (root == null && secondRoot != null)
+            {
+                return false;
+            }
+            if (root != null && secondRoot == null)
+            {
+                return false;
+            }
+            if (Helper(root.left, secondRoot.left) == false || Helper(root.right, secondRoot.right) == false || root.val != secondRoot.val)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
