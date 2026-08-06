@@ -1,12 +1,15 @@
 ﻿using System.Numerics;
 using System.Text;
+using static ConsoleApp1.Solution_83;
 namespace ConsoleApp1
 {
     internal class Program
     {
         public static void Main()
         {
-          
+            ListNode ts1 = new ListNode(1, new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(3, null)))));
+            Solution_83 solution_83 = new Solution_83();
+            solution_83.DeleteDuplicates(ts1);
         }
 
     }
@@ -343,6 +346,46 @@ namespace ConsoleApp1
                 second = next;
             }
             return second;
+        }
+    }
+
+
+    public class Solution_83
+    {
+        public class ListNode {
+            public int val;
+            public ListNode next;
+            public ListNode(int val=0, ListNode next=null) {
+                this.val = val;
+                this.next = next;
+            }
+        }
+
+        public ListNode DeleteDuplicates(ListNode head)
+        {
+            ListNode tail = head;
+            while (tail != null && tail.next != null)
+            {
+
+                if (tail.val == tail.next.val)
+                {
+                    tail.next = tail.next.next;
+                }
+                else
+                {
+                    tail = tail.next;
+                }
+                
+            }
+            return head;
+        }
+
+    }
+    public class Solution_88
+    {
+        public void Merge(int[] nums1, int m, int[] nums2, int n)
+        {
+
         }
     }
 }
