@@ -492,4 +492,21 @@ namespace ConsoleApp1
             return IsSymmetric(left.left, right.right) && IsSymmetric(left.right, right.left);
         }
     }
+
+    //Actually - this was quite easy. Somehow wrote this without any second thoughts - just bam, and it`s done
+    public class Solution_104
+    {
+        public int MaxDepth(TreeNode root)
+        {
+            return Helper(root, 0);
+        }
+        public int Helper(TreeNode root, int depth)
+        {
+            if (root == null)
+            {
+                return depth;
+            }
+            return Math.Max(Helper(root.left, depth + 1), Helper(root.right, depth + 1));
+        }
+    }
 }
