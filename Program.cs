@@ -509,4 +509,23 @@ namespace ConsoleApp1
             return Math.Max(Helper(root.left, depth + 1), Helper(root.right, depth + 1));
         }
     }
+    public class Solution_108
+    {
+        public TreeNode SortedArrayToBST(int[] nums)
+        {
+            int start = 0;
+            int end = nums.Length - 1;
+            return CreateTree(nums, start, end);
+        }
+
+        public TreeNode CreateTree(int[] nums,int start, int end)
+        {
+            if (start > end)
+            {
+                return null;
+            }
+            int mid = (start + end) / 2;
+            return new TreeNode(nums[mid], CreateTree(nums, start, mid - 1), CreateTree(nums, mid + 1, end));
+        }
+    }
 }
