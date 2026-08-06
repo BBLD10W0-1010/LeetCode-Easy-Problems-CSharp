@@ -445,13 +445,11 @@ namespace ConsoleApp1
             }
         }
     }
-    //somehow this works
     public class Solution_100
     {
         public bool IsSameTree(TreeNode p, TreeNode q)
         {
             return Helper(p, q);
-
         }
         
         public bool Helper(TreeNode root, TreeNode secondRoot)
@@ -460,19 +458,38 @@ namespace ConsoleApp1
             {
                 return true;
             }
-            if (root == null && secondRoot != null)
+            if (root == null || secondRoot == null)
             {
                 return false;
             }
-            if (root != null && secondRoot == null)
+            return Helper(root.left, secondRoot.left) && Helper(root.right, secondRoot.right) && root.val == secondRoot.val;
+        }
+    }
+    public class Solution_101
+    {
+        public bool IsSymmetric(TreeNode root)
+        {
+            TreeNode lt = root.left;
+            TreeNode rt = root.right;
+            return IsSymmetric(lt, rt);
+
+        }
+
+        public bool IsSymmetric(TreeNode left, TreeNode right)
+        {
+            if (left == null && right == null)
+            {
+                return true;
+            }
+            if (left == null || right == null)
             {
                 return false;
             }
-            if (Helper(root.left, secondRoot.left) == false || Helper(root.right, secondRoot.right) == false || root.val != secondRoot.val)
+            if (left.val != right.val)
             {
                 return false;
             }
-            return true;
+            return IsSymmetric(left.left, right.right) && IsSymmetric(left.right, right.left);
         }
     }
 }
