@@ -629,4 +629,31 @@ namespace ConsoleApp1
             return ans;
         }
     }
+    public class Solution_121
+    {
+        public int MaxProfit(int[] prices)
+        {
+            int profit = 0;
+            int buy = prices[0];
+            foreach (int val in prices)
+            {
+                if (val > buy)
+                {
+                    profit = Math.Max(profit, val - buy);
+                }
+                else
+                {
+                    buy = val;
+                }
+            }
+            return profit;
+        }
+    }
+    public class Solution_125
+    {
+        public bool IsPalindrome(string s)
+        {
+
+        }
+    }
 }
