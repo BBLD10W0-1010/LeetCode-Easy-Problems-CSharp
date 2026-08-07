@@ -8,14 +8,8 @@ namespace ConsoleApp1
     {
         public static void Main()
         {
-           
-            Solution_88 solution_88 = new Solution_88();
-            int[] vr = [2, 0];
-            solution_88.Merge(vr, 1, [1], 1);
-            foreach(var nt in vr)
-            {
-                Console.WriteLine(nt); 
-            }
+            Solution_118 sl = new Solution_118();
+            sl.Generate(5);
         }
 
     }
@@ -526,6 +520,113 @@ namespace ConsoleApp1
             }
             int mid = (start + end) / 2;
             return new TreeNode(nums[mid], CreateTree(nums, start, mid - 1), CreateTree(nums, mid + 1, end));
+        }
+    }
+    public class Solution_110
+    {
+        public bool IsBalanced(TreeNode root)
+        {
+            return Helper(root) != -1;
+        }
+
+        public int Helper(TreeNode root)
+        {
+            if (root == null)
+            {
+               return 0;
+            }
+            int leftHeight = Helper(root.left);
+
+            if (leftHeight == -1)
+            {
+                return -1;
+            }
+            int rightHeight = Helper(root.right);
+            if (rightHeight == -1)
+            {
+                return -1;
+            }
+            if (Math.Abs(rightHeight-leftHeight) > 1)
+            {
+                return -1;
+            }
+            return Math.Max(rightHeight, leftHeight) + 1;
+        }
+    }
+    public class Solution_111
+    {
+        public int MinDepth(TreeNode root)
+        {
+            if (root == null)
+            {
+                return 0;
+            }
+            return Helper(root, 1);
+
+        }
+        public int Helper(TreeNode root, int depth)
+        {
+            if (root.left == null && root.right == null)
+            {
+                return depth ;
+            }
+
+            if (root.left == null)
+            {
+                return Helper(root.right, depth + 1);
+            }
+            if (root.right == null)
+            {
+                return Helper(root.left, depth + 1);
+            }
+            return Math.Min(Helper(root.left, depth + 1), Helper(root.right, depth + 1));
+        }
+    }
+    public class Solution_118
+    {
+        public IList<IList<int>> Generate(int numRows)
+        {
+            var ans = new List<IList<int>>();
+            if (numRows == 1)
+            {
+                ans.Add(new List<int>() { 1 });
+                return ans;
+            }
+            if (numRows == 2)
+            {
+                ans.Add(new List<int>() { 1 });
+                ans.Add(new List<int>() { 1,1 });
+                return ans;
+
+            }
+            for (int i = 0; i < numRows; i++)
+            {
+                if (i == 0)
+                {
+                    ans.Add(new List<int>() { 1 });
+                }
+                else if (i == 1)
+                {
+                    ans.Add(new List<int>() { 1, 1 });
+                }
+                else
+                {
+                    var lstToAdd = new List<int>() { };
+                    for (int k = 0; k <= i; k++)
+                    {
+                        if (k == 0 || k == i)
+                        {
+                            lstToAdd.Add(1);
+                        }
+                        else
+                        {
+                            lstToAdd.Add(ans[i - 1][k - 1] + ans[i - 1][k]);
+                        }
+                    }
+                    ans.Add(lstToAdd);
+                }
+            }
+            return ans;
         }
     }
 }
