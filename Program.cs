@@ -8,8 +8,8 @@ namespace ConsoleApp1
     {
         public static void Main()
         {
-            Solution_118 sl = new Solution_118();
-            sl.Generate(5);
+            var sl = new Solution_190();
+            sl.ReverseBits(43261596);
         }
 
     }
@@ -653,7 +653,235 @@ namespace ConsoleApp1
     {
         public bool IsPalindrome(string s)
         {
+            int left = 0;
+            int right = s.Length - 1;
 
+            while(left < right)
+            {
+                while (left < right && !char.IsLetterOrDigit(s[left]))
+                {
+                    left++;
+                }
+                while (left < right && !char.IsLetterOrDigit(s[right]))
+                {
+                    right--;
+                }
+                if (char.ToLowerInvariant(s[left]) != char.ToLowerInvariant(s[right]))
+                {
+                    return false;
+                }
+                left++;
+                right--;
+            }
+            return true;
+        }
+    }
+    public class Solution_136
+    {
+        public int SingleNumber(int[] nums)
+        {
+            int result = 0;
+            for(int i=0; i < nums.Length; i++)
+            {
+                result ^= nums[i];
+            }
+            return result;
+        }
+    }
+    //what a mess
+    public class Solution_141
+    {
+        public bool HasCycle(ListNode head)
+        {
+            if (head == null)
+            {
+                return false;
+            }
+            ListNode slowPointer = null;
+            ListNode fastPointer = head;
+            bool flag = false;
+            while (fastPointer != null && slowPointer != fastPointer)
+            {
+                if (!flag) { slowPointer = head; flag = true; }
+                else { slowPointer = slowPointer.next; }
+
+                fastPointer = fastPointer.next;
+                if (fastPointer == null)
+                {
+                    return false;
+                }
+                fastPointer = fastPointer.next;
+                if (fastPointer == null)
+                {
+                    return false;
+                }
+            }
+            return true;
+            
+        }
+    }
+    public class Solution_144
+    {
+        public IList<int> PreorderTraversal(TreeNode root)
+        {
+            List<int> ans = new List<int>();
+            Helper(root, ans);
+            return ans;
+        }
+
+        public void Helper(TreeNode root, List<int> ans)
+        {
+            if (root != null)
+            {
+                ans.Add(root.val);
+                Helper(root.left, ans);
+                Helper(root.right, ans);
+            }
+
+        }
+    }
+    public class Solution_145
+    {
+        public IList<int> PostorderTraversal(TreeNode root)
+        {
+            List<int> ans = new List<int>();
+            Helper(root, ans);
+            return ans;
+        }
+
+        public void Helper(TreeNode root, List<int> ans)
+        {
+            if (root != null)
+            {
+                Helper(root.left, ans);
+                Helper(root.right, ans);
+                ans.Add(root.val);
+            }
+        }
+    }
+    public class Solution_160
+    {
+        public ListNode GetIntersectionNode(ListNode headA, ListNode headB)
+        {
+            
+            ListNode headBstart = headB;
+            while (headA != null)
+            {
+                while (headB != null)
+                {
+                    if (headB == headA)
+                    {
+                        return headA;
+                    }
+                    headB = headB.next;
+                }
+                headA = headA.next;
+                headB = headBstart;
+            }
+            return null;
+        }
+    }
+    public class Solution_168
+    {
+        public static string ConvertToTitle(int columnNumber)
+        {
+            StringBuilder ans = new();
+            while (columnNumber > 0)
+            {
+                columnNumber--;
+                ans.Insert(0, Convert.ToChar(columnNumber % 26 + 65));
+                columnNumber /= 26;
+            }
+            return ans.ToString();
+        }
+    }
+    public class Solution_169
+    {
+        public int MajorityElement(int[] nums)
+        {
+            int votes = 0;
+            int candidate = -1;
+            int cnt = 0;
+            for(int i=0; i< nums.Length; i++)
+            {
+                if (votes == 0)
+                {
+                    candidate = nums[i];
+                    votes = 1;
+                }
+                else
+                {
+                    if (nums[i] == candidate)
+                    {
+                        votes++;
+                    }
+                    else
+                    {
+                        votes--;
+                    }
+                }
+            }
+            for (int i=0; i<nums.Length; i++)
+            {
+                if (candidate == nums[i])
+                {
+                    cnt++;
+                }
+                if (cnt > nums.Length / 2)
+                {
+                    return candidate;
+                }
+                
+            }
+                return -80085;
+        }
+    }
+    //fiddling with numbers (-1+1-1+1-1+1-1+1)
+    public class Solution_171
+    {
+        public int TitleToNumber(string columnTitle)
+        {
+            int ans = 0;
+            for (int i = 0; i<columnTitle.Length; i++)
+            {
+                ans += (int)Math.Pow(26, columnTitle.Length -1 - i) * (Convert.ToInt32(columnTitle[i])-64);
+            }
+            return ans;
+        }
+    }
+    //that`s not so good - but it`s only four times the exec time from best solution =)
+    public class Solution_190
+    {
+        public int ReverseBits(int n)
+        {
+            
+            StringBuilder ans = new StringBuilder(Convert.ToString(n,2).PadLeft(32,'0'));
+            for(int i = 0; i < ans.Length / 2; i++)
+            {
+                char tmp = ans[i];
+                ans[i] = ans[ans.Length - 1 - i];
+                ans[ans.Length -1 - i] = tmp;
+            }
+            return Convert.ToInt32(ans.ToString(),2);
+
+        }
+    }
+    //fun with bits
+    public class Solution_191
+    {
+        public int HammingWeight(int n)
+        {
+            int ans = 0;
+            while (n > 0)
+            {
+                var firstBit = n & 1;
+                if (firstBit == 1)
+                {
+                    ans++;
+                }
+                n >>= 1; 
+            }
+            return ans;
         }
     }
 }
