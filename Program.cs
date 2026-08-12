@@ -8,8 +8,8 @@ namespace ConsoleApp1
     {
         public static void Main()
         {
-            var sl = new Solution_190();
-            sl.ReverseBits(43261596);
+            var sl = new Solution_202();
+            sl.IsHappy(2);
         }
 
     }
@@ -882,6 +882,89 @@ namespace ConsoleApp1
                 n >>= 1; 
             }
             return ans;
+        }
+    }
+    //could be more optimal if I were checking containing of key in dict, not in a list
+    public class Solution_202
+    {
+        public bool IsHappy(int n)
+        {
+            int tmp = n;
+            List<int> wereBefore = new();
+            while(n != 1)
+            {
+                n = SumOfSquaredDigits(n);
+                
+                if (n == tmp)
+                {
+                    return false;
+                }
+                if (wereBefore.Contains(n))
+                {
+                    return false;
+                }
+                wereBefore.Add(n);
+            }
+            return true;
+        }
+
+        public int SumOfSquaredDigits(int n)
+        {
+            int sum = 0;
+            while (n > 0)
+            {
+                sum += (n % 10) * (n % 10);
+                n /= 10;
+            }
+            return sum;
+        }
+    }
+    public class Solution_203
+    {
+        public ListNode RemoveElements(ListNode head, int val)
+        {
+            ListNode dummy = new(0, head);
+            var current = dummy;
+            while (current.next != null)
+            {
+                if (current.next.val == val)
+                {
+                    current.next = current.next.next;
+                }
+                else
+                {
+                    current = current.next;
+                }
+            }
+            return dummy.next;
+        }
+
+    }
+    public class Solution_205
+    {
+        public bool IsIsomorphic(string s, string t)
+        {
+            Dictionary<char, char> map = new();
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (map.TryGetValue(s[i], out char idgaf))
+                {
+                    if (idgaf != t[i])
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (map.ContainsValue(t[i]))
+                    {
+                        return false;
+                    }
+                    map[s[i]] = t[i];
+                   
+                }
+            }
+            return true;
         }
     }
 }
