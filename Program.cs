@@ -8,8 +8,8 @@ namespace ConsoleApp1
     {
         public static void Main()
         {
-            var sl = new Solution_202();
-            sl.IsHappy(2);
+            var sl = new Solution_219();
+            sl.ContainsNearbyDuplicate([ 1, 0, 1, 1 ], 1);
         }
 
     }
@@ -965,6 +965,60 @@ namespace ConsoleApp1
                 }
             }
             return true;
+        }
+    }
+    public class Solution_206
+    {
+        public ListNode ReverseList(ListNode head)
+        {
+            ListNode prev = null;
+            ListNode curr = head;
+            ListNode next;
+            while(curr != null)
+            {
+                next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
+            }
+            return prev;
+        }
+    }
+    public class Solution_217
+    {
+        public bool ContainsDuplicate(int[] nums)
+        {
+            Dictionary<int, int> distinct = new();
+            for (int i = 0; i< nums.Length; i++)
+            {
+                if (!distinct.TryAdd(nums[i], 1))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+    public class Solution_219
+    {
+        public bool ContainsNearbyDuplicate(int[] nums, int k)
+        {
+            Dictionary<int, int> distinct = new();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (!distinct.TryAdd(nums[i], i))
+                {
+                    if (Math.Abs(i - distinct[nums[i]]) <= k)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        distinct[nums[i]] = i;
+                    }
+                }
+            }
+            return false;
         }
     }
 }
