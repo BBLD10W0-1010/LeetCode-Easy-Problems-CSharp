@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Collections;
+using System.Numerics;
 using System.Text;
 using static ConsoleApp1.Solution_83;
 using static ConsoleApp1.Solution_94;
@@ -1019,6 +1020,80 @@ namespace ConsoleApp1
                 }
             }
             return false;
+        }
+    }
+    //brochacho watahelli is this shi - why would you make stack out of queues - nevertheless it`s done
+    public class Solution_225
+    {
+        public class MyStack
+        {
+            public Queue<int> queue;
+            public Queue<int> queue2;
+            public MyStack()
+            {
+                this.queue = new();
+                this.queue2 = new();
+            }
+
+            public void Push(int x)
+            {
+                queue.Enqueue(x);
+            }
+
+            public int Pop()
+            {
+                while (queue.Count > 1){
+                    queue2.Enqueue(queue.Dequeue());
+                }
+                var tnp = queue.Dequeue();
+                while (queue2.Count > 0)
+                {
+                    queue.Enqueue(queue2.Dequeue());
+                }
+                return tnp;
+            }
+
+            public int Top()
+            {
+                while (queue.Count > 1)
+                {
+                    queue2.Enqueue(queue.Dequeue());
+                }
+                var tnp = queue.Peek();
+                queue2.Enqueue(queue.Dequeue());
+                while (queue2.Count > 0)
+                {
+                    queue.Enqueue(queue2.Dequeue());
+                }
+                return tnp;
+            }
+
+            public bool Empty()
+            {
+                return !(queue.Count > 0);
+            }
+        }
+    }
+
+    public class Solution_226
+    {
+        public TreeNode InvertTree(TreeNode root)
+        {
+            Helper(root);
+            return root;
+        }
+
+        public void Helper(TreeNode root)
+        {
+            if (root == null)
+            {
+                return;
+            }
+            var tmp = root.left;
+            root.left = root.right;
+            root.right = tmp;
+            Helper(root.left);
+            Helper(root.right);
         }
     }
 }
