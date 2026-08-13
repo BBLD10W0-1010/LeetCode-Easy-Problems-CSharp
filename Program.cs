@@ -9,8 +9,56 @@ namespace ConsoleApp1
     {
         public static void Main()
         {
-            var sl = new Solution_219();
-            sl.ContainsNearbyDuplicate([ 1, 0, 1, 1 ], 1);
+            var sl = new Solution_234();
+
+            // 1 -> 2 -> 2 -> 1
+            var test1 = new ListNode(1,
+                new ListNode(2,
+                    new ListNode(2,
+                        new ListNode(1))));
+
+            Console.WriteLine(sl.IsPalindrome(test1)); // true
+
+
+            // 1 -> 2
+            var test2 = new ListNode(1,
+                new ListNode(2));
+
+            Console.WriteLine(sl.IsPalindrome(test2)); // false
+
+
+            // 1 -> 2 -> 1
+            var test3 = new ListNode(1,
+                new ListNode(2,
+                    new ListNode(1)));
+
+            Console.WriteLine(sl.IsPalindrome(test3)); // true
+
+
+            // 1
+            var test4 = new ListNode(1);
+
+            Console.WriteLine(sl.IsPalindrome(test4)); // true
+
+
+            // 1 -> 2 -> 3 -> 2 -> 1
+            var test5 = new ListNode(1,
+                new ListNode(2,
+                    new ListNode(3,
+                        new ListNode(2,
+                            new ListNode(1)))));
+
+            Console.WriteLine(sl.IsPalindrome(test5)); // true
+
+
+            // 1 -> 2 -> 3 -> 4
+            var test6 = new ListNode(1,
+                new ListNode(2,
+                    new ListNode(3,
+                        new ListNode(4))));
+
+            Console.WriteLine(sl.IsPalindrome(test6)); // false
+
         }
 
     }
@@ -1074,7 +1122,6 @@ namespace ConsoleApp1
             }
         }
     }
-
     public class Solution_226
     {
         public TreeNode InvertTree(TreeNode root)
@@ -1094,6 +1141,131 @@ namespace ConsoleApp1
             root.right = tmp;
             Helper(root.left);
             Helper(root.right);
+        }
+    }
+    public class Solution_228
+    {
+        public IList<string> SummaryRanges(int[] nums)
+        {
+            if (nums.Length == 0)
+            {
+                return [];
+            }
+            if (nums.Length == 1)
+            {
+                return new List<string>() { $"{nums[0]}" };
+            }
+            List<string> ranges = new();
+            int i = 0;
+            int start;
+            while (i < nums.Length)
+            {
+
+                start = nums[i];
+                while (i != nums.Length - 1 && nums[i + 1] - nums[i] == 1)
+                {
+                    i++;
+                }
+
+                if (start == nums[i])
+                {
+                    ranges.Add($"{start}");
+
+                }
+                else
+                {
+                    ranges.Add($"{start}->{nums[i]}");
+                }
+                i++;
+            }
+            return ranges;
+        }
+    }
+    public class Solution_231
+    {
+        public bool IsPowerOfTwo(int n)
+        {
+            return (n > 0 && (n & (n - 1)) < 1);
+        }
+    }
+    public class Solution_232
+    {
+        public class MyQueue
+        {
+            public Stack<int> stack;
+            public Stack<int> stack2;
+
+            public MyQueue()
+            {
+                stack = new();
+                stack2 = new();
+            }
+
+            public void Push(int x)
+            {
+                stack.Push(x);
+            }
+
+            public int Pop()
+            {
+                while(stack.Count > 1)
+                {
+                    stack2.Push(stack.Pop());
+                }
+                var tmp = stack.Pop();
+                while (stack2.Count > 0)
+                {
+                    stack.Push(stack2.Pop());
+                }
+                return tmp;
+            }
+
+            public int Peek()
+            {
+                while (stack.Count > 1)
+                {
+                    stack2.Push(stack.Pop());
+                }
+                var tmp = stack.Peek();
+                stack2.Push(stack.Pop());
+                while (stack2.Count > 0)
+                {
+                    stack.Push(stack2.Pop());
+                }
+                return tmp;
+            }
+
+            public bool Empty()
+            {
+                return (stack.Count > 0);
+            }
+        }
+
+        /**
+         * Your MyQueue object will be instantiated and called as such:
+         * MyQueue obj = new MyQueue();
+         * obj.Push(x);
+         * int param_2 = obj.Pop();
+         * int param_3 = obj.Peek();
+         * bool param_4 = obj.Empty();
+         */
+    }
+    public class Solution_234
+    {
+        public bool IsPalindrome(ListNode head)
+        {
+            ListNode dummy = new(0, head);
+            ListNode fastPointer = dummy;
+            ListNode slowPointer = dummy;
+            while(fastPointer != null)
+            {
+                fastPointer = fastPointer.next;
+                if (fastPointer != null) fastPointer = fastPointer.next;
+                
+                slowPointer = slowPointer.next;
+            }
+            Console.WriteLine(slowPointer);
+            return false;
         }
     }
 }
