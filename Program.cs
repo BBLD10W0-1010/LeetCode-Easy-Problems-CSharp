@@ -1254,18 +1254,58 @@ namespace ConsoleApp1
     {
         public bool IsPalindrome(ListNode head)
         {
-            ListNode dummy = new(0, head);
-            ListNode fastPointer = dummy;
-            ListNode slowPointer = dummy;
-            while(fastPointer != null)
+            ListNode fastPointer = head;
+            ListNode slowPointer = head;
+            ListNode prev = null;
+            ListNode next;
+            while (fastPointer != null && fastPointer.next != null)
             {
-                fastPointer = fastPointer.next;
-                if (fastPointer != null) fastPointer = fastPointer.next;
-                
+                fastPointer = fastPointer.next.next;
+
+                next = slowPointer.next;
+                slowPointer.next = prev;
+                prev = slowPointer;
+                slowPointer = next;
+            }
+            if (fastPointer != null)
+            {
                 slowPointer = slowPointer.next;
             }
-            Console.WriteLine(slowPointer);
-            return false;
+            while (slowPointer != null)
+            {
+                if (slowPointer.val != prev.val)
+                {
+                    return false;
+                }
+                slowPointer = slowPointer.next;
+                prev = prev.next;
+            }
+            return true;
+        }
+    }
+    public class Solution_242
+    {
+        public bool IsAnagram(string s, string t)
+        {
+            
+            if (s.Length != t.Length)
+            {
+                return false;
+            }
+            int[] set = new int[26];
+            for (int i = 0; i < s.Length; i++)
+            {
+                set[s[i] - 'a']++;
+                set[t[i] - 'a']--;
+            }
+            foreach (var val in set)
+            {
+                if (val != 0)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
