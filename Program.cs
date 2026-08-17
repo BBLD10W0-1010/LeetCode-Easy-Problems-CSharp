@@ -1308,4 +1308,96 @@ namespace ConsoleApp1
             return true;
         }
     }
+    public class Solution_258
+    {
+        public int AddDigits(int num)
+        {
+            if (num == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return (1 + ((num - 1) % 9));
+            }
+        }
+    }
+    public class Solution_263
+    {
+        public bool IsUgly(int n)
+        {
+            if (n <= 0)
+            {
+                return false;
+            }
+            if (n == 1)
+            {
+                return true;
+            }
+            while (n % 2 == 0)
+            {
+                n /= 2;
+            }
+            while (n%3== 0)
+            {
+                n /= 3;
+            }
+            while( n%5 == 0)
+            {
+                n /= 5;
+            }
+            return (n == 1);
+        }
+
+    }
+    public class Solution_268
+    {
+        public int MissingNumber(int[] nums)
+        {
+            int sum = 0;
+            int sumOfEl = nums.Length * (nums.Length + 1) / 2;
+            foreach (var nm in nums)
+            {
+                sum += nm;
+            }
+            return sumOfEl - sum;
+        }
+    }
+    public class Solution_278 
+    {
+        /* The isBadVersion API is defined in the parent class VersionControl.
+        bool IsBadVersion(int version); */
+        public int FirstBadVersion(int n)
+        {
+            int start = 1;
+            int end = n;
+            int remember = -1;
+            while(start <= end)
+            {
+                int mid = start + (end - start) / 2;
+                if (IsBadVersion(mid) == false)
+                {
+                    start = mid + 1;
+                }
+                if (IsBadVersion(mid) == true)
+                {
+                    remember = mid;
+                    end = mid - 1;
+                }
+            }
+            return remember;
+        }
+        //placeholder
+        public bool IsBadVersion(int n)
+        {
+            return true;
+        }
+    }
+    public class Solution_283
+    {
+        public void MoveZeroes(int[] nums)
+        {
+
+        }
+    }
 }
